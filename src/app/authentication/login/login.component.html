@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="row d-flex">
+      <!-- left section -->
+      <div class="col-md-6 mt-3 login-left">
+        <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+          <h1 class="login-heading">ConnectLocal  Login</h1>
+          <p class="form-paragraph">
+            Enter your valid Email and the password for the login to your dashboard
+          </p>
+  
+          
+         
+          
+          <div class="mb-3 mt-5">
+            <label for="emailInput" class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="emailInput"
+              class="form-control"
+              placeholder="Mike@yopmail.com"
+              formControlName="email"
+            />
+            <div
+              *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)"
+              class="text-danger"
+            >
+              <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+              <div *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input
+              type="password"
+              id="passwordInput"
+              class="form-control"
+              placeholder="Password"
+              formControlName="password"
+            />
+            <div
+              *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
+              class="text-danger"
+            >
+              <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
+            </div>
+          </div>
+          <div>
+            <button type="submit" class="btn text-white loginButton mt-3 shadow-lg" [disabled]="loginForm.invalid || loadingSpinner" >
+              
+              <span *ngIf="!loadingSpinner">SIGN IN</span>
+  
+              <span *ngIf="loadingSpinner" class="spinner-grow text-warning" role="status">
+                
+              </span>
+              <span *ngIf="loadingSpinner">Loading...</span>
+            </button>
+          </div>
+          <p class="paragraph-link mt-4 mx-3">
+            By clicking Sign In, you agree to ConnectLocal 
+            <span class="text-success text-link">Terms of Service</span> and
+            acknowledge our
+            <span class="text-success text-link">privacy policy</span>
+          </p>
+          <p class="dispatch mt-4 text-center mb-3">New to Spotless Solutions?</p>
+          <p class="text-center">
+            <button type="button" class="create-button" routerLink="/auth/signup">Create an account</button>
+          </p>
+        </form>
+      </div>
+      <!-- right section -->
+      <div class="computer-image col-md-6 text-center login">
+        <span class="d-flex justify-content-center align-items-center p-2">
+          <img class="px-sm-2" src="./assets/image/logo.png" alt="" />
+          <h2 class="text-white mb-0">Spotless Solutions</h2>
+        </span>
+        <p class="lorem-paragraph text-white px-sm-3">
+          The Spotless Solutions app is a comprehensive solution for managing laundry services, offering users a convenient platform to
+          schedule pickups, track orders, and customize preferences.
+        </p>
+        <img class="px-sm-3 mt-5" src="./assets/image/Group 16166.png" alt="" style="width: 85%" />
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,105 @@
+body {
+    letter-spacing: 0;
+    font-size: 14px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px 0px;
+    font-size: 15px;
+    background: #102940 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+}
+
+.form-label {
+    font-size: 13px;
+}
+
+.form-control {
+    font-size: 13px;
+    background-color: #F5F6FA;
+    height: 50px;
+    border: none;
+    padding-left: 17px;
+}
+
+.password-paragraph {
+    float: right;
+    font-size: 13px;
+}
+
+.paragraph-link {
+    font-size: 13px;
+    text-align: center;
+}
+
+.form-paragraph {
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+.create-button {
+    border: 2px solid #2C2C2C2B;
+    padding: 8px 20px;
+    font-size: 16px;
+    background: transparent;
+    border-radius: 8px;
+}
+
+.create-button a {
+    color: #252525;
+    text-decoration: none;
+}
+
+.login-heading {
+    font-size: 37px;
+}
+
+.computer-image {
+    background-color: #102940;
+    height: 100vh;
+}
+
+.lorem-paragraph {
+    font-size: 14px;
+}
+
+.login {
+    padding: 55px 75px 10px 75px;
+}
+
+.login-left {
+    padding: 55px 125px 10px 125px;
+    flex: 1;
+}
+
+
+.loginButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border: 2px solid #555555;
+}
+
+@media screen and (max-width: 576px) {
+    .login {
+        padding: 55px 23px 10px 23px;
+    }
+    .login-left {
+        padding: 55px 20px 10px 20px;
+    }
+}

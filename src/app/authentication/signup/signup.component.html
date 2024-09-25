@@ -1,0 +1,89 @@
+<div class="container-fluid">
+    <div class="container">
+      <div class="row mx-2 mt-4">
+        <div class="row back-relative"></div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6 mt-5">
+          <h4 class="image-header-helf">
+            New to ConnectLocal ?
+          </h4>
+          <div class="mt-4">
+            <img class="flag-image " src="../../../../assets/image/signup.jpeg" alt="" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h3 class="profile-heading mt-5">Register</h3>
+          <form [formGroup]="registrationForm" (ngSubmit)="registerUser()">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="usernameInput" class="form-label">User Name</label>
+                  <input type="text" id="usernameInput" formControlName="username" class="form-control" placeholder="User Name" />
+                  <div *ngIf="registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)" class="text-danger">
+                    <div *ngIf="registrationForm.get('username')?.errors?.['required']">Username is required.</div>
+                    <div *ngIf="registrationForm.get('username')?.errors?.['minlength']">Username must be at least 3 characters long.</div>
+                    <div *ngIf="registrationForm.get('username')?.errors?.['maxlength']">Username cannot be more than 20 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="roleSelect" class="form-label">Role (select one)</label>
+                <select class="form-control" formControlName="role" id="roleSelect">
+                  <option value="" disabled>Select a role</option>
+
+                  <option value="owner">Business Owner</option>
+                  <option value="agent">Agents</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="stateSelect" class="form-label">Select State</label>
+                <select formControlName="state" class="form-control" id="stateSelect">
+                  <option value="" disabled>Select a state</option>
+                  <option *ngFor="let state of states" [value]="state.state">{{ state.state }}</option>
+                </select>
+              </div>
+            
+              <div class="col-md-6">
+                <label for="citySelect" class="form-label">Select City</label>
+                <select formControlName="city" class="form-control" id="citySelect">
+                  <option value="" disabled>Select a city</option>
+                  <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+                </select>
+              </div>
+            </div>
+  
+            <div class="row d-flex">
+              <div class="col-md-12">
+                <label for="emailInput" class="form-label">Email Address</label>
+                <input type="email" id="emailInput" formControlName="email" class="form-control" placeholder="Email Address" />
+                <div *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)" class="text-danger">
+                  <div *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email format.</div>
+                </div>
+              </div>
+  
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="passwordInput" class="form-label">Password</label>
+                  <input type="password" id="passwordInput" formControlName="password" class="form-control" placeholder="Password" />
+                  <div *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)" class="text-danger">
+                    <div *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required.</div>
+                    <div *ngIf="registrationForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="mx-5">
+              <!-- <button type="submit" class="btn text-white mt-3 shadow-lg" [disabled]="registrationForm.invalid">Continue</button> -->
+              <button type="submit" class="btn text-white mt-3 shadow-lg" [disabled]="false">Continue</button>
+            </div>
+            <p class="footer-link text-center mt-3" routerLink="/auth/login">Already Have A Account ? Login</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

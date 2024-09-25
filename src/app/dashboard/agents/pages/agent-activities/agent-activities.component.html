@@ -1,0 +1,33 @@
+<div class="container p-3 d-flex justify-content-center w-100 laundary">
+    <div class="overflow-auto">
+      <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr>
+            <th>S No</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Amount(₵)</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let post of postList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ post.custName }}</td>
+            <td>
+              <span class="badge badge-success rounded-pill d-inline">{{
+                post.status
+              }}</span>
+            </td>
+            <td>{{ post.amount }}</td>
+            <td>
+              <button type="button" class="btn btn-link btn-sm btn-rounded">
+                <i class="fas fa-eye" (click)="openModal(post)"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

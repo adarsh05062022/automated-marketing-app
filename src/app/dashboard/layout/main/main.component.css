@@ -1,0 +1,28 @@
+.mainBoady {
+    display: flex;
+  }
+  .sidebar {
+    flex: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .dashboard {
+    flex: 80%;
+  }
+  
+  .myNavbar {
+    width: 100vw;
+    top: 0;
+    left: 0;
+  }
+  
+  /* Styles for screens smaller than 768px */
+  @media screen and (max-width: 768px) {
+    .mainBoady {
+      flex-wrap: wrap;
+    }
+  
+  
+  }
+  

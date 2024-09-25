@@ -1,0 +1,19 @@
+<div class="sidebar">
+    <div class="innerWrapper">
+      <ng-container *ngIf="!isAdmin; else elesCondition">
+        <ul class="links">
+          <li class="link" routerLink="agent" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</li>
+          <li class="link" routerLink="agent/requests" routerLinkActive="active">Manage Requests</li>
+          <li class="link" routerLink="agent/activities" routerLinkActive="active">Activities</li>
+        </ul>
+      </ng-container>
+      <ng-template #elesCondition>
+        <ul class="links">
+          <li class="link" routerLink="owner" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</li>
+          <li class="link" routerLink="owner/share-post" routerLinkActive="active">Share a thread</li>
+          <li class="link" routerLink="owner/activities" routerLinkActive="active">Activities</li>
+        </ul>
+      </ng-template>
+    </div>
+  </div>
+  
