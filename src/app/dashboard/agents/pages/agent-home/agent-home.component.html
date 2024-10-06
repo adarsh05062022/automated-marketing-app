@@ -1,0 +1,91 @@
+<div class="card m-3">
+  <div class="innerWrapper row w-100 g-0">
+    <!-- Top Cards -->
+    <div class="topCards">
+      <div class="card card-body">
+        <h5>Total Revenue</h5>
+        <h3>{{ totalRevenue | currency }}</h3>
+      </div>
+      <div class="card card-body">
+        <h5>Approved Posts</h5>
+        <h3>{{ approvedPosts }}</h3>
+      </div>
+      <div class="card card-body">
+        <h5>Active Campaigns</h5>
+        <h3>{{ activeCampaigns }}</h3>
+      </div>
+    </div>
+
+    <!-- Pricing and Social Media Section -->
+    <div class="socials col-md-4">
+      <div class="details">
+        <!-- Social Media Add Options -->
+        <!-- <div class="inputFields">
+            <label for="facebook">Facebook Integration</label>
+            <input name="facebook" type="text" [(ngModel)]="socialMedia.facebook" />
+          </div>
+          <div class="inputFields">
+            <label for="twitter">Twitter Integration</label>
+            <input name="twitter" type="text" [(ngModel)]="socialMedia.twitter" />
+          </div> -->
+        <div class="inputFields">
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="p-0 d-flex justify-content-center align-items-center">
+              Instagram Integration
+            </p>
+          </div>
+
+          <div class="d-flex">
+            <div class="mx-2">
+              <label for="instagram">Username</label>
+              <input
+                name="instagram"
+                type="text"
+                [(ngModel)]="socialMedia.instagram.username"
+                [disabled]="!isInstagramEditing"
+              />
+            </div>
+            <div class="mx-2">
+              <label for="instagram">Password</label>
+              <input
+                name="instagram"
+                type="password"
+                [(ngModel)]="socialMedia.instagram.password"
+                [disabled]="!isInstagramEditing"
+              />
+            </div>
+            <div class="d-flex align-items-center">
+              <div *ngIf="!isInstagramEditing" (click)="onEditIconClick()">
+                <i class="far fa-pen-to-square cursor-pointer"></i>
+              </div>
+              <div
+                *ngIf="isInstagramEditing"
+                (click)="onSaveIconClick()"
+              >
+                <i class="fas fa-check cursor-pointer"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart Section -->
+    <div class="chart col-md-8">
+      <div class="card-body chartInner">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [datasets]="revenueChartData"
+          [labels]="revenueChartLabels"
+          [options]="revenueChartOptions"
+          [legend]="chartLegend"
+        >
+        </canvas>
+      </div>
+    </div>
+
+    <!-- Feedback Button -->
+    <!-- <button class="feedbackButton btn btn-primary" (click)="openFeedbackModel()">Feedback</button> -->
+  </div>
+</div>

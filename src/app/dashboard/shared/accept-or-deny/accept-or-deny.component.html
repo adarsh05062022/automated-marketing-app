@@ -1,1 +1,16 @@
-<p>accept-or-deny works!</p>
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Confirm Action</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="deny()"></button>
+    </div>
+  
+    <div class="modal-body">
+      <p>{{ message }}</p> <!-- Dynamic message from the parent -->
+    </div>
+  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="deny()">Deny</button>
+      <button type="button" class="btn btn-primary" (click)="accept()">Accept</button>
+    </div>
+  </div>
+  

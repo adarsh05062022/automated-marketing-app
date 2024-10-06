@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/authentication.service'; // Import your AuthService
+import { ToastrService } from 'ngx-toastr'; // Import Toastr for notifications
 import statesList from '../../../assets/statesList.json';
 
 @Component({
@@ -31,6 +33,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private authService: AuthService, // Inject AuthService
+    private toastr: ToastrService // Inject ToastrService for notifications
   ) {}
 
   ngOnInit(): void {
@@ -66,18 +70,15 @@ export class SignupComponent implements OnInit {
       city: this.registrationForm.value.city,   // Add city
     };
 
-
-    console.log(this.userData)
-
-    // Uncomment and implement your auth service registration logic here
-    // this.authService.register(this.userData).subscribe(
-    //   (response) => {
-    //     this.toastr.success("User registered successfully", "", { timeOut: 2000 });
-    //     this.router.navigate(['/auth/login']);
-    //   },
-    //   (error) => {
-    //     this.toastr.error("Error registering user", "", { timeOut: 2000 });
-    //   }
-    // );
+    // Call the register method from AuthService
+    this.authService.register(this.userData).subscribe(
+      (response: any) => {
+        this.router.navigate(['/auth/login']);
+        this.toastr.success("User registered successfully", "", { timeOut: 2000 });
+      },
+      (error: any) => {
+        this.toastr.error("Error registering user", "", { timeOut: 2000 });
+      }
+    );
   }
 }

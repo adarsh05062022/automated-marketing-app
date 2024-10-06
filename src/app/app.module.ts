@@ -20,6 +20,10 @@ import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
+import { NgChartsModule } from 'ng2-charts';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +48,16 @@ import { ToastrModule } from 'ngx-toastr';
     MdbTooltipModule,
     MdbValidationModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    HttpClientModule ,
+    ToastrModule.forRoot({ // Add ToastrModule
+      timeOut: 3000, // duration of toast
+      positionClass: 'toast-top-right', // position of toast
+      preventDuplicates: true, // prevent duplicate messages
+    }),
+    NgChartsModule,
+    FormsModule 
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,171 +5,100 @@ import { ToastrService } from 'ngx-toastr';
 import { PostViewDialogComponent } from '../../../shared/post-view-dialog/post-view-dialog.component';
 import { AcceptOrDenyComponent } from '../../../shared/accept-or-deny/accept-or-deny.component';
 import { AcceptPostComponent } from '../../components/accept-post/accept-post.component';
-import { Post } from '../../../../interfaces/Post.interface';
+import { Campaign } from '../../../../interfaces/Post.interface';
+import { CampaignService } from '../../../../services/campaign.service';
 
-
- 
 @Component({
   selector: 'app-agent-requests',
   templateUrl: './agent-requests.component.html',
-  styleUrl: './agent-requests.component.css'
+  styleUrl: './agent-requests.component.css',
 })
 export class AgentRequestsComponent {
-  postList: Post[] = [
-    {
-      custName:"Anmol",
-      status:"processing",
-      amount:"500"
-    },
-    {
-      custName:"Adatsh",
-      status:"accepted",
-      amount:"49900"
-    }
-  ];
+  campaignList: Campaign[] = []; // Changed from postList to campaignList
 
   detailModalRef: MdbModalRef<PostViewDialogComponent> | null = null;
   acceptModalRef: MdbModalRef<AcceptPostComponent> | null = null;
   rejectModalRef: MdbModalRef<AcceptOrDenyComponent> | null = null;
 
   constructor(
-    // private laundryService: LaundryService,
     private modalService: MdbModalService,
+    private campaignService: CampaignService, // Inject your service
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.fetchpostList();
+    this.fetchCampaigns();
   }
 
-/**
- * The `fetchpostList` function fetches laundry entries from a service and sorts them based on
- * pickup date.
- */
-  fetchpostList(): void {
-    // this.laundryService.getLaundryEntries().subscribe((entries) => {
-    //   this.postList = entries.sort((a, b) => {
-    //     return new Date(a.pickupDate).getTime() - new Date(b.pickupDate).getTime()  ;
-    //   });
-    // });
-
-    
-  }
-
- /**
-  * The `viewDetails` function opens a modal dialog to display details of a laundry item.
-  * @param {LaundryEntry} laundryItem - The `viewDetails` function takes a `laundryItem` parameter of
-  * type `LaundryEntry`. This parameter represents an entry in a laundry list or database, containing
-  * information about a specific laundry item such as its type, size, color, and any other relevant
-  * details. When the `viewDetails
-  */
-  viewDetails(post: Post) {
-    this.detailModalRef = this.modalService.open(
-      PostViewDialogComponent,
-      {
-        data: {
-          post: post,
-        },
+  fetchCampaigns(): void {
+    this.campaignService.getCampaignsByAgentId().subscribe(
+      (response) => {
+        if (response && response.campaigns) {
+          this.campaignList = response.campaigns;
+          console.log(this.campaignList);
+        } else {
+          this.toastr.warning(response.message || 'No campaigns found.');
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.toastr.error('Failed to retrieve campaigns: ' + error.message);
       }
     );
   }
 
-  /**
-   * The `onAcceptLaundry` function opens a modal for accepting a laundry item and updates its status
-   * to 'processing' upon acceptance.
-   * @param {LaundryEntry} laundryItem - The `laundryItem` parameter in the `onAcceptLaundry` function
-   * represents an object of type `LaundryEntry`. It likely contains information about a laundry
-   * request, such as the item to be laundered, the customer's details, and the current status of the
-   * request.
-   */
-  onAcceptLaundry(post: Post) {
-    // this.acceptModalRef = this.modalService.open(AcceptAndAmmountComponent);
-    // this.acceptModalRef.onClose.subscribe((value: boolean) => {
-    //   if (value) {
-    //     post.status = 'processing';
-
-    //     this.updateRequest(true, laundryItem, 'Laundry request is accepted');
-    //   }
-    // });
+  viewDetails(campaign: Campaign) {
+    this.detailModalRef = this.modalService.open(PostViewDialogComponent, {
+      data: {
+        post: campaign,
+      },
+    });
   }
-  /**
-   * The function `onRejectLaundry` handles the rejection or marking as delivered of a laundry request
-   * based on the current status.
-   * @param {LaundryEntry} laundryItem - The `laundryItem` parameter in the `onRejectLaundry` function
-   * represents an object that contains information about a laundry entry, such as the status of the
-   * laundry request and delivery date.
-   * @param {string} currentStatus - The `currentStatus` parameter in the `onRejectLaundry` function
-   * represents the current status of a laundry item. It is a string that indicates whether the laundry
-   * item is currently in a "requested" state or a "delivered" state. This parameter is used to
-   * determine the actions to be
-   */
-  onRejectLaundry(laundryItem: Post, currentStatus: string) {
-    this.rejectModalRef = this.modalService.open(AcceptOrDenyComponent);
-    this.rejectModalRef.onClose.subscribe((message: boolean) => {
-      if (message) {
-        if (currentStatus === 'requested') {
-          laundryItem.status = 'rejected';
-          // peforn the action accordind to yourself
 
-          this.updateRequest(false, laundryItem, 'Laundry request is rejected');
-        } else {
-          laundryItem.status = 'delivered';
-          // const date = new Date();
-          // const year = date.getFullYear();
-          // const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because month indexes start from 0
-          // const day = date.getDate().toString().padStart(2, '0');
-          // const formattedDate = `${year}-${month}-${day}`;
-          // laundryItem.deliveryDate = formattedDate;
-          // // peforn the action accordind to yourself
-        }
+  onAcceptCampaign(campaign: Campaign) {
+    this.rejectModalRef = this.modalService.open(AcceptOrDenyComponent, {
+      data: {
+        message:
+          'Are you sure you want to transmit this campaign on your social?', // Customize the message here
+      },
+    });
 
-        this.updateRequest(
-          true,
-          laundryItem,
-          'Laundry request is marked delivered!'
-        );
+    this.rejectModalRef.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.toastr.success('Campaign Sharing successfully.');
+      } else {
+        this.toastr.info('Campaign Sharing cancelled.');
       }
     });
   }
 
-  /**
-   * The function `filteredpostList` returns a filtered list of `LaundryEntry` items excluding those
-   * with status 'delivered' or 'rejected'.
-   * @returns The `getFilteredpostList` method is returning an array of `LaundryEntry` objects that
-   * have a status other than 'delivered' and 'rejected'.
-   */
-  get filteredpostList(): Post[] {
-    return this.postList.filter(
-      (item) => item.status !== 'delivered' && item.status !== 'rejected'
-    );
+  onRejectCampaign(campaign: Campaign) {
+    this.rejectModalRef = this.modalService.open(AcceptOrDenyComponent, {
+      data: {
+        message: 'Are you sure you want to reject this campaign?',
+      },
+    });
+
+    this.rejectModalRef.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.campaignService.removeAgentFromCampaign(campaign._id).subscribe(
+          (response) => {
+            this.toastr.success(
+              'Campaign rejected and agent removed successfully.'
+            );
+            this.fetchCampaigns();
+          },
+          (error) => {
+            console.error('Error removing agent from campaign:', error);
+            this.toastr.error('Failed to reject campaign and remove agent.');
+          }
+        );
+      } else {
+        this.toastr.info('Campaign rejection cancelled.');
+      }
+    });
   }
 
-  updateRequest(success: boolean, laundryItem: Post, message: string) {
-  /* This code snippet is handling the update operation for a laundry entry. Here's a breakdown of what
-  it does: */
-
-
-    // try {
-    //   this.laundryService
-    //     .updateLaundryEntry(laundryItem)
-    //     .subscribe((response) => {
-    //       console.log(response);
-
-    //       // this.router.navigate(['/dashboard/admin']);
-
-    //       this.toastr.success(message, '', {
-    //         progressBar: true,
-    //       });
-    //     });
-    // } catch (error: any) {
-    //   console.log(error);
-    //   this.toastr.warning(error.name, '', {
-    //     progressBar: true,
-    //   });
-    //   console.log(error);
-    // }
-
-
-  }
+  // Add any additional methods or logic as needed
 }

@@ -13,7 +13,7 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) 
   },
   // Redirect to the authentication page if no route is matched
-  { path: '', redirectTo: '/dashboard/agent', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/auth/login' } // Wildcard route for 404
 ];
 

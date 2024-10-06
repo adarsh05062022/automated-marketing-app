@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,10 +8,10 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  isAdmin: boolean = false;
+  isAdmin: boolean = true;
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService:AuthService) {}
 
 
    /**
@@ -19,6 +20,7 @@ export class SidebarComponent {
    */
   ngOnInit(): void {
     // this.performAction();
+    this.isAdmin = this.authService.isOwner();
   }
 
 

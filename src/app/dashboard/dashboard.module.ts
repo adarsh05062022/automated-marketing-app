@@ -14,6 +14,11 @@ import { OwnerActivitiesComponent } from './owner/pages/owner-activities/owner-a
 import { PostViewDialogComponent } from './shared/post-view-dialog/post-view-dialog.component';
 import { AcceptOrDenyComponent } from './shared/accept-or-deny/accept-or-deny.component';
 import { AcceptPostComponent } from './agents/components/accept-post/accept-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
+import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 
 
 @NgModule({
@@ -34,7 +39,15 @@ import { AcceptPostComponent } from './agents/components/accept-post/accept-post
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    ReactiveFormsModule,
+    NgChartsModule,
+    FormsModule,
+    MdbModalModule,
+    MdbTabsModule,
+    MdbTooltipModule  
+
+
   ]
 })
 export class DashboardModule { }
