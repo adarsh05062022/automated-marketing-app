@@ -18,55 +18,56 @@ export class CampaignService {
       .post(`${this.apiUrl}/create-campaign`, data, {
         headers: this.createHeaders(),
       })
-      .pipe(
-        catchError(this.handleError) // Handle errors
-      );
+      .pipe(catchError(this.handleError)); // Handle errors
   }
 
-  // Get campaigns by user ID
+  // Get campaigns by owner ID (business owner)
   getCampaignsByOwnerId(): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/owner`, {
         headers: this.createHeaders(),
       })
-      .pipe(
-        catchError(this.handleError) // Handle errors
-      );
+      .pipe(catchError(this.handleError)); // Handle errors
   }
 
-  // Get a campaign by ID
+  // Get a specific campaign by campaign ID
   getCampaignById(campaignId: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/campaign/${campaignId}`, {
         headers: this.createHeaders(),
       })
-      .pipe(
-        catchError(this.handleError) // Handle errors
-      );
+      .pipe(catchError(this.handleError)); // Handle errors
   }
 
-  // Get campaigns by agent ID
+  // Get campaigns by agent ID (for agents viewing their campaigns)
   getCampaignsByAgentId(): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/agent`, {
         headers: this.createHeaders(),
       })
-      .pipe(
-        catchError(this.handleError) // Handle errors
-      );
+      .pipe(catchError(this.handleError)); // Handle errors
+  }
+
+  // Accept a campaign by agent (this method would make an API call to mark an agent's acceptance)
+  acceptCampaign(campaignId: string): Observable<any> {
+    return this.http
+      .post(
+        `${this.apiUrl}/accept/campaign/${campaignId}`,
+        {},
+        {
+          headers: this.createHeaders(),
+        }
+      )
+      .pipe(catchError(this.handleError));
   }
 
   // Remove an agent from a campaign
-  removeAgentFromCampaign(
-    campaignId: string,
-  ): Observable<any> {
+  removeAgentFromCampaign(campaignId: string): Observable<any> {
     return this.http
       .delete(`${this.apiUrl}/remove-agent/${campaignId}`, {
         headers: this.createHeaders(),
       })
-      .pipe(
-        catchError(this.handleError) // Handle errors
-      );
+      .pipe(catchError(this.handleError)); // Handle errors
   }
 
   // Create headers including the JWT from cookies
@@ -81,5 +82,27 @@ export class CampaignService {
   private handleError(error: any) {
     console.error('An error occurred:', error);
     return throwError(error); // Throw an error observable
+  }
+
+  // **Get Metrics by agentId and campaignId**
+  getMetrics(campaignId: string): Observable<any> {
+    return this.http
+      .get(`http://localhost:5000/api/metrics/${campaignId}`, {
+        headers: this.createHeaders(),
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  // **Update Metrics by agentId and campaignId**
+  updateMetrics(campaignId: string): Observable<any> {
+    return this.http
+      .post(
+        `http://localhost:5000/api/metrics/update-metrics/${campaignId}`,
+        {}, // You can pass any necessary data here
+        {
+          headers: this.createHeaders(),
+        }
+      )       
+      .pipe(catchError(this.handleError));
   }
 }

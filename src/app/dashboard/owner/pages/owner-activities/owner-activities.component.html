@@ -8,12 +8,13 @@
             <th>Amount($)</th>
             <th>Platform</th>
             <th>Start Date</th>
+            <th>Status</th>
             <th>End Date</th>
             <th>Details</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let campaign of campaignList; let i = index">
+          <tr *ngFor="let campaign of activeCampaigns; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ campaign.campaignName }}</td>
             
@@ -23,8 +24,40 @@
                 campaign.platform
               }}</span>
             </td>
+            
             <td>{{ formatDate(campaign.startDate)  }}</td>
+            <td>
+              <span class="badge badge-success rounded-pill d-inline">Active</span>
+            </td>
             <td>{{ formatDate(campaign.endDate)}}</td>
+
+
+
+            <td>
+              <button type="button" class="btn btn-link btn-sm btn-rounded">
+                <i class="fas fa-eye" (click)="openModal(campaign)"></i>
+              </button>
+            </td>
+          </tr>
+          <tr></tr>
+          <tr *ngFor="let campaign of expiredCampaigns; let i = index">
+            <td>{{ i + 1 + activeCampaigns.length  }}</td>
+            <td>{{ campaign.campaignName }}</td>
+            
+            <td>{{ campaign.budget }}</td>
+            <td>
+              <span class="badge badge-success rounded-pill d-inline">{{
+                campaign.platform
+              }}</span>
+            </td>
+            
+            <td>{{ formatDate(campaign.startDate)  }}</td>
+            <td>
+              <span class="badge badge-danger rounded-pill d-inline">Expired</span>
+            </td>
+            <td>{{ formatDate(campaign.endDate)}}</td>
+
+
 
             <td>
               <button type="button" class="btn btn-link btn-sm btn-rounded">

@@ -58,10 +58,7 @@
               <div *ngIf="!isInstagramEditing" (click)="onEditIconClick()">
                 <i class="far fa-pen-to-square cursor-pointer"></i>
               </div>
-              <div
-                *ngIf="isInstagramEditing"
-                (click)="onSaveIconClick()"
-              >
+              <div *ngIf="isInstagramEditing" (click)="onSaveIconClick()">
                 <i class="fas fa-check cursor-pointer"></i>
               </div>
             </div>

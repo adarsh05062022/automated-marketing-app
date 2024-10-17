@@ -4,9 +4,11 @@ export interface Agent {
     _id:string
   }; // Assuming userId is stored as a string
   affiliatedLink: string;
+  accepted:boolean;
 }
 
 export interface Campaign {
+  isAccepted: boolean;
   _id:string
   campaignName: string;
   budget: number;
@@ -17,4 +19,5 @@ export interface Campaign {
   image: string; // Base64 image string
   agents: Agent[]; // List of agents associated with the campaign
   owner: any; 
+  
 }

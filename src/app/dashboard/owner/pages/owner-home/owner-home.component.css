@@ -1,0 +1,116 @@
+.innerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  
+  .innerWrapper .feedbackButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: fit-content;
+  }
+  
+  /* Top Cards Section */
+  .topCards {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  
+    .card {
+      width: 30%;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+  
+      h5 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #4caf50;
+      }
+  
+      h3 {
+        font-size: 24px;
+        margin-top: 0;
+        color: #333;
+      }
+    }
+  }
+
+  
+  .socials .details {
+    display: flex;
+    padding: 15px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  
+  .socials .details .userDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: fit-content;
+  }
+  
+  .socials .details .inputFields {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .socials .details .inputFields label {
+    min-width: 100px;
+    color: #4caf50;
+    font-size: 14px;
+    padding-left: 5px;
+  }
+  
+  .socials .details .inputFields input,
+  .socials .details .inputFields textarea {
+    /* width: 200px; */
+    border-radius: 18px;
+    border: 1px solid aqua;
+    padding: 3px 10px;
+    font-size: 13px;
+  }
+  
+  .socials .details .inputFields input {
+    height: 35px;
+  }
+  
+  .socials .details .editButton {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    cursor: pointer;
+  }
+  
+  
+  
+  .chart .chartInner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .chart .chartInner canvas {
+    width: clamp(200px, 350px, 400px) !important;
+    max-width: 400px;
+    max-height: 400px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    canvas {
+      max-width: 400px;
+      max-height: 400px;
+    }
+  }
+  

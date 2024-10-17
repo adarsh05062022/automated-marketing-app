@@ -50,11 +50,15 @@ export class AgentHomeComponent implements OnInit {
   ];
   public chartLegend = true;
 
-  constructor(private socialService: SocialService,private toastr: ToastrService ) {} // Inject the service
+  constructor(
+    private socialService: SocialService,
+    private toastr: ToastrService
+  ) {} // Inject the service
 
   ngOnInit(): void {
-    // Fetch necessary data for dashboard
+    // Fetch necessary data for dashboard and social account details
     this.fetchAgentDashboardData();
+    this.fetchSocialAccountDetails();
   }
 
   fetchAgentDashboardData() {
@@ -62,6 +66,26 @@ export class AgentHomeComponent implements OnInit {
     this.totalRevenue = 1250;
     this.approvedPosts = 12;
     this.activeCampaigns = 4;
+  }
+
+  fetchSocialAccountDetails() {
+    // Call the service method to get Instagram account details
+    this.socialService
+      .getSocialAccount()
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching Instagram account:', error);
+          // this.toastr.error('Failed to load Instagram account.');
+          return of(null);
+        })
+      )
+      .subscribe((account) => {
+        if (account) {
+          this.socialMedia.instagram.username = account.username;
+          this.socialMedia.instagram.password = account.password;
+          // this.toastr.success('Instagram account loaded successfully!');
+        }
+      });
   }
 
   onEditIconClick() {
@@ -75,15 +99,19 @@ export class AgentHomeComponent implements OnInit {
     };
 
     // Call the service method to save Instagram account details
-    this.socialService.registerOrUpdateSocialAccount(instagramData.username, instagramData.password)
+    this.socialService
+      .registerOrUpdateSocialAccount(
+        instagramData.username,
+        instagramData.password
+      )
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           console.error('Error saving Instagram account:', error);
           this.toastr.error('Failed to save Instagram account.'); // Show error toast
           return of(null); // Handle the error as needed
         })
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         if (response) {
           console.log('Instagram account saved successfully:', response);
           this.toastr.success('Instagram account saved successfully!'); // Show success toast

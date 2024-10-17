@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ToastrService } from 'ngx-toastr';
-import { PostViewDialogComponent } from '../../../shared/post-view-dialog/post-view-dialog.component';
-import { AcceptOrDenyComponent } from '../../../shared/accept-or-deny/accept-or-deny.component';
-import { AcceptPostComponent } from '../../components/accept-post/accept-post.component';
-import { Campaign } from '../../../../interfaces/Post.interface';
-import { CampaignService } from '../../../../services/campaign.service';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { MdbModalRef, MdbModalService } from "mdb-angular-ui-kit/modal";
+import { ToastrService } from "ngx-toastr";
+import { Campaign } from "../../../../interfaces/Post.interface";
+import { CampaignService } from "../../../../services/campaign.service";
+import { AcceptOrDenyComponent } from "../../../shared/accept-or-deny/accept-or-deny.component";
+import { PostViewDialogComponent } from "../../../shared/post-view-dialog/post-view-dialog.component";
+import { AcceptPostComponent } from "../../components/accept-post/accept-post.component";
 
 @Component({
   selector: 'app-agent-requests',
   templateUrl: './agent-requests.component.html',
-  styleUrl: './agent-requests.component.css',
+  styleUrls: ['./agent-requests.component.css'], // Corrected from styleUrl to styleUrls
 })
 export class AgentRequestsComponent {
-  campaignList: Campaign[] = []; // Changed from postList to campaignList
+  campaignList: Campaign[] = [];
 
   detailModalRef: MdbModalRef<PostViewDialogComponent> | null = null;
   acceptModalRef: MdbModalRef<AcceptPostComponent> | null = null;
@@ -31,12 +31,16 @@ export class AgentRequestsComponent {
     this.fetchCampaigns();
   }
 
+  // Fetch campaigns assigned to the agent
   fetchCampaigns(): void {
     this.campaignService.getCampaignsByAgentId().subscribe(
       (response) => {
         if (response && response.campaigns) {
-          this.campaignList = response.campaigns;
+          this.campaignList = response.campaigns.filter(
+            (campaign: any) => campaign.isAccepted === false
+          );
           console.log(this.campaignList);
+          
         } else {
           this.toastr.warning(response.message || 'No campaigns found.');
         }
@@ -48,6 +52,7 @@ export class AgentRequestsComponent {
     );
   }
 
+  // Open a modal to view campaign details
   viewDetails(campaign: Campaign) {
     this.detailModalRef = this.modalService.open(PostViewDialogComponent, {
       data: {
@@ -56,23 +61,35 @@ export class AgentRequestsComponent {
     });
   }
 
+  // Accept campaign and open modal to confirm action
   onAcceptCampaign(campaign: Campaign) {
     this.rejectModalRef = this.modalService.open(AcceptOrDenyComponent, {
       data: {
-        message:
-          'Are you sure you want to transmit this campaign on your social?', // Customize the message here
+        message: 'Are you sure you want to transmit this campaign on your social media?',
       },
     });
 
     this.rejectModalRef.onClose.subscribe((result: boolean) => {
       if (result) {
-        this.toastr.success('Campaign Sharing successfully.');
+        // Mark campaign as accepted in the backend
+        this.toastr.warning('Process Scheduled');
+        this.campaignService.acceptCampaign(campaign._id).subscribe(
+          (response) => {
+            this.toastr.success('Campaign accepted and sharing confirmed.');
+            this.fetchCampaigns(); // Refresh campaigns
+          },
+          (error) => {
+            console.error('Error accepting campaign:', error);
+            this.toastr.error('Failed to accept campaign.');
+          }
+        );
       } else {
-        this.toastr.info('Campaign Sharing cancelled.');
+        this.toastr.info('Campaign sharing cancelled.');
       }
     });
   }
 
+  // Reject campaign with a modal confirmation
   onRejectCampaign(campaign: Campaign) {
     this.rejectModalRef = this.modalService.open(AcceptOrDenyComponent, {
       data: {
@@ -82,12 +99,11 @@ export class AgentRequestsComponent {
 
     this.rejectModalRef.onClose.subscribe((result: boolean) => {
       if (result) {
+        // Remove the agent from the campaign
         this.campaignService.removeAgentFromCampaign(campaign._id).subscribe(
           (response) => {
-            this.toastr.success(
-              'Campaign rejected and agent removed successfully.'
-            );
-            this.fetchCampaigns();
+            this.toastr.success('Campaign rejected and agent removed successfully.');
+            this.fetchCampaigns(); // Refresh campaigns after rejection
           },
           (error) => {
             console.error('Error removing agent from campaign:', error);
@@ -99,6 +115,4 @@ export class AgentRequestsComponent {
       }
     });
   }
-
-  // Add any additional methods or logic as needed
 }
