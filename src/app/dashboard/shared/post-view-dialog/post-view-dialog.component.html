@@ -99,7 +99,7 @@
     <mdb-tab title="Agents" *ngIf="isOwner">
       <div class="row">
         <div class="col-md-12" *ngFor="let agent of post.agents">
-          <div class="d-flex justify-content-between mx-5">
+          <div class="d-flex justify-content-between">
             <div class="d-flex justify-content-center align-items-center">
               <p class="mx-1 p-2 justify-content-center align-items-center">
                 <i class="fas fa-user"></i>
@@ -120,8 +120,36 @@
               </p>
             </div>
 
-            <div class="p-2 justify-content-center align-items-center">
-              <a [href]="agent.affiliatedLink">Link</a>
+            <div
+              class="p-2 justify-content-center align-items-center"
+              *ngIf="agent.accepted"
+            >
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    <i class="fas fa-heart"></i>
+                  </p>
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    {{ agent.metrics.likes }}
+                  </p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    <i class="fas fa-comment"></i>
+                  </p>
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    {{ agent.metrics.comments }}
+                  </p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    <i class="fas fa-coins"></i>
+                  </p>
+                  <p class="mx-1 p-2 justify-content-center align-items-center">
+                    {{ agent.metrics.earnings }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -138,7 +166,7 @@
                 <i class="fas fa-heart"></i>
               </p>
               <p class="mx-1 p-2 justify-content-center align-items-center">
-                {{ metrices.likes }}
+                {{ metrics.likes }}
               </p>
             </div>
             <div class="d-flex justify-content-center align-items-center">
@@ -146,7 +174,7 @@
                 <i class="fas fa-comment"></i>
               </p>
               <p class="mx-1 p-2 justify-content-center align-items-center">
-                {{ metrices.comments }}
+                {{ metrics.comments }}
               </p>
             </div>
             <div class="d-flex justify-content-center align-items-center">
@@ -154,7 +182,7 @@
                 <i class="fas fa-coins"></i>
               </p>
               <p class="mx-1 p-2 justify-content-center align-items-center">
-                {{ metrices.earnings }}
+                {{ metrics.earnings }}
               </p>
             </div>
             <div class="d-flex justify-content-center align-items-center">
@@ -165,8 +193,8 @@
                   mdbRipple
                   (click)="fetchMetrics()"
                 >
-                  {{FetchButtonText}}</button
-                >
+                  {{ FetchButtonText }}
+                </button>
               </p>
             </div>
           </div>

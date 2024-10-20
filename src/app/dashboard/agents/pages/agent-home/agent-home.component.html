@@ -1,67 +1,75 @@
 <div class="card m-3">
   <div class="innerWrapper row w-100 g-0">
     <!-- Top Cards -->
-    <div class="topCards">
-      <div class="card card-body">
+    <div class="topCards p-2">
+      
+      <div class="card card-body p-4">
         <h5>Total Revenue</h5>
         <h3>{{ totalRevenue | currency }}</h3>
       </div>
-      <div class="card card-body">
+      <div class="card card-body p-4">
         <h5>Approved Posts</h5>
         <h3>{{ approvedPosts }}</h3>
       </div>
-      <div class="card card-body">
+      <div class="card card-body p-4">
         <h5>Active Campaigns</h5>
         <h3>{{ activeCampaigns }}</h3>
       </div>
     </div>
 
-    <!-- Pricing and Social Media Section -->
-    <div class="socials col-md-4">
-      <div class="details">
-        <!-- Social Media Add Options -->
-        <!-- <div class="inputFields">
-            <label for="facebook">Facebook Integration</label>
-            <input name="facebook" type="text" [(ngModel)]="socialMedia.facebook" />
-          </div>
-          <div class="inputFields">
-            <label for="twitter">Twitter Integration</label>
-            <input name="twitter" type="text" [(ngModel)]="socialMedia.twitter" />
-          </div> -->
-        <div class="inputFields">
-          <div class="d-flex justify-content-between align-items-center">
-            <p class="p-0 d-flex justify-content-center align-items-center">
-              Instagram Integration
-            </p>
-          </div>
+    <!--  Social Media Section -->
 
-          <div class="d-flex">
-            <div class="mx-2">
-              <label for="instagram">Username</label>
-              <input
-                name="instagram"
-                type="text"
-                [(ngModel)]="socialMedia.instagram.username"
-                [disabled]="!isInstagramEditing"
-              />
-            </div>
-            <div class="mx-2">
-              <label for="instagram">Password</label>
-              <input
-                name="instagram"
-                type="password"
-                [(ngModel)]="socialMedia.instagram.password"
-                [disabled]="!isInstagramEditing"
-              />
-            </div>
-            <div class="d-flex align-items-center">
-              <div *ngIf="!isInstagramEditing" (click)="onEditIconClick()">
-                <i class="far fa-pen-to-square cursor-pointer"></i>
+    <div class="card text-center col-md-4">
+      <div class="card-header">
+        <img
+          class="logo"
+          width="100px"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"
+          alt="Instagram"
+        />
+      </div>
+      <div class="card-body">
+        <div class="socials col-md-4">
+          <div class="details">
+            <div class="inputFields">
+              <div class="mx-2 my-1 d-flex">
+                <label for="instagram" class="d-flex align-items-center"
+                  >Username</label
+                >
+                <input
+                  name="instagram"
+                  type="text"
+                  [(ngModel)]="socialMedia.instagram.username"
+                  [disabled]="!isInstagramEditing"
+                />
               </div>
-              <div *ngIf="isInstagramEditing" (click)="onSaveIconClick()">
-                <i class="fas fa-check cursor-pointer"></i>
+              <div class="mx-2 my-1 d-flex">
+                <label for="instagram" class="d-flex align-items-center"
+                  >Password</label
+                >
+                <input
+                  name="instagram"
+                  type="password"
+                  [(ngModel)]="socialMedia.instagram.password"
+                  [disabled]="!isInstagramEditing"
+                />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-muted align-self-end">
+        <div class="d-flex align-items-center ">
+          <div *ngIf="!isInstagramEditing" >
+            <button type="button" class="btn btn-danger btn-rounded" (click)="onEditIconClick()" mdbRipple>
+               <i class="far fa-pen-to-square cursor-pointer"></i> Edit
+            </button>
+
+            
+          </div>
+          <div *ngIf="isInstagramEditing" >
+            <button type="button" class="btn btn-success btn-rounded" mdbRipple (click)="onSaveIconClick()"><i class="fas fa-check cursor-pointer"></i> Save</button>
+            
           </div>
         </div>
       </div>
@@ -81,8 +89,5 @@
         </canvas>
       </div>
     </div>
-
-    <!-- Feedback Button -->
-    <!-- <button class="feedbackButton btn btn-primary" (click)="openFeedbackModel()">Feedback</button> -->
   </div>
 </div>

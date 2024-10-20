@@ -6,17 +6,16 @@ import { CookieService } from 'ngx-cookie-service'; // Import ngx-cookie-service
 import { tap } from 'rxjs/operators'; // Import tap operator
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private apiUrl = 'http://localhost:5000/api/users'; // Backend URL for common auth API
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
     private router: Router
-  ) { }
+  ) {}
 
   // Login (common for both agents and owners)
   login(data: any): Observable<any> {
@@ -42,12 +41,17 @@ export class AuthService {
 
   // Store token and user details in cookies
   setSession(authResult: any): void {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1); // Set the cookie to expire in 1 day
+  
     this.cookieService.delete('token');
     this.cookieService.delete('user');
-    
-    this.cookieService.set('token', authResult.token);  // Store JWT token
-    this.cookieService.set('user', JSON.stringify(authResult.user)); // Store user data (role, email, etc.)
+  
+    // Set token and user data with an expiration time of 1 day
+    this.cookieService.set('token', authResult.token, expirationDate, '/');
+    this.cookieService.set('user', JSON.stringify(authResult.user), expirationDate, '/');
   }
+  
 
   // Get stored user data
   getUser(): any {
@@ -61,10 +65,11 @@ export class AuthService {
 
   // Logout
   logout(): void {
-    this.cookieService.delete('token');
-    this.cookieService.delete('user');
+    this.cookieService.delete('token', '/'); // Explicitly set the path
+    this.cookieService.delete('user', '/'); // Explicitly set the path
     this.router.navigate(['/login']);
   }
+  
 
   // Check if user is authenticated
   isAuthenticated(): boolean {
@@ -74,11 +79,11 @@ export class AuthService {
   // Check role-based access (agent or owner)
   isOwner(): boolean {
     const user = this.getUser();
-    return user?.isOwner==true;
+    return user?.isOwner == true;
   }
 
   isAgent(): boolean {
     const user = this.getUser();
-    return !user?.isOwner==false;
+    return !user?.isOwner == false;
   }
 }

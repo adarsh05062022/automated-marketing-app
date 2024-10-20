@@ -11,7 +11,7 @@
     styleUrls: ['./post-view-dialog.component.css'],
   })
   export class PostViewDialogComponent {
-    post!: Campaign; // Property to hold the campaign information
+    post!: any; // Property to hold the campaign information
     formattedStartDate: string = ''; // New property for formatted start date
     formattedEndDate: string = ''; // New property for formatted end date
     OwnerName: string = '';
@@ -19,7 +19,7 @@
     isAccepted: boolean = false;
     FetchButtonText: string = "Fetch";
 
-    metrices: {
+    metrics: {
       likes: number;
       comments: number;
       earnings: number;
@@ -58,8 +58,12 @@
       // Set owner details
       this.setOwnerDetails();
 
+      if(!this.isOwner){
+        this.getMetrics();
 
-      this.fetchMetrics();
+      }
+
+      
     }
 
     setOwnerDetails() {
@@ -86,11 +90,11 @@
       this.campaignService.updateMetrics(this.post._id).subscribe(
         (response) => {
           // Assuming response contains the updated metrics
-
+          
           if (response ) {
-            this.metrices.likes = response.likes; // Update the metrics with the fetched data
-            this.metrices.comments = response.comments; // Update the metrics with the fetched data
-            this.metrices.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
+            this.metrics.likes = response.likes; // Update the metrics with the fetched data
+            this.metrics.comments = response.comments; // Update the metrics with the fetched data
+            this.metrics.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
             
           } else {
             console.warn(response.message || 'No metrics found.');
@@ -99,7 +103,7 @@
         (error) => {
           console.error('Failed to fetch metrics:', error);
           this.FetchButtonText = "Fetch"; // Reset button text on error
-          this.toastr.error('Failed to fetch metrics: ' + error.message);
+          // this.toastr.error('Failed to fetch metrics: ' + error.message);
         },
         () => {
           this.FetchButtonText = "Fetch"; // Reset button text after completion
@@ -112,19 +116,18 @@
       this.campaignService.getMetrics(this.post._id).subscribe(
         (response) => {
 
-          console.log(response)
+          
           if (response ) {
-            this.metrices.likes = response.likes; // Update the metrics with the fetched data
-            this.metrices.comments = response.comments; // Update the metrics with the fetched data
-            this.metrices.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
+            this.metrics.likes = response.likes; // Update the metrics with the fetched data
+            this.metrics.comments = response.comments; // Update the metrics with the fetched data
+            this.metrics.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
             
           } else {
             console.warn(response.message || 'No metrics found.');
           }
         },
         (error) => {
-          console.error('Failed to get metrics:', error);
-          this.toastr.error('Failed to get metrics: ' + error.message);
+          console.warn('Failed to get metrics:', error);
         }
       );
     }

@@ -31,6 +31,9 @@ export class OwnerActivitiesComponent implements OnInit {
     this.campaignService.getCampaignsByOwnerId().subscribe({
       next: (campaigns: any) => {
         this.campaignList = campaigns.campaigns;
+
+         console.log(this.campaignList)
+
         this.splitAndSortCampaigns(); // Split and sort campaigns
         this.cdRef.detectChanges(); // Trigger change detection manually
       },

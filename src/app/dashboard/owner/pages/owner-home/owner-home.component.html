@@ -1,46 +1,35 @@
 <div class="card m-3">
-    <div class="innerWrapper row w-100 g-0">
-      <!-- Top Cards -->
-      <div class="topCards">
-       
-        <div class="card card-body">
-          <h5>Total Expense</h5>
-          <h3>{{ totalExpense | currency }}</h3>
-        </div>
-        <div class="card card-body">
-          <h5>Unique Agents</h5>
-          <h3>{{ uniqueAgents }}</h3>
-        </div>
-        <div class="card card-body">
-          <h5>Active Campaigns</h5>
-          <h3>{{ activeCampaigns }}</h3>
-        </div>
+  <div class="innerWrapper row w-100 g-0">
+    <!-- Top Cards -->
+    <div class="topCards p-2">
+      <div class="card card-body">
+        <h5>Total Expense</h5>
+        <h3>{{ totalExpense | currency }}</h3>
       </div>
-  
-      <!-- Pricing and Social Media Section -->
-      <div class="socials col-md-4">
-        <div class="details">
-          
-        </div>
+      <div class="card card-body">
+        <h5>Unique Agents</h5>
+        <h3>{{ uniqueAgents }}</h3>
       </div>
-  
-      <!-- Revenue Chart Section -->
-      <div class="chart col-md-8">
-        <div class="card-body chartInner">
-          <canvas
-            baseChart
-            [type]="'bar'"
-            [datasets]="revenueChartData"
-            [labels]="revenueChartLabels"
-            [options]="revenueChartOptions"
-            [legend]="chartLegend"
-          >
-          </canvas>
-        </div>
+      <div class="card card-body">
+        <h5>Active Campaigns</h5>
+        <h3>{{ activeCampaigns }}</h3>
       </div>
-  
-      <!-- Feedback Button -->
-      <!-- <button class="feedbackButton btn btn-primary" (click)="openFeedbackModel()">Feedback</button> -->
+    </div>
+
+   
+
+    <!-- Revenue Chart Section -->
+    <div class="chart col-md-12">
+      <div class="card-body chartInner">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [datasets]="revenueChartData"
+          [labels]="revenueChartLabels"
+          [options]="revenueChartOptions"
+          [legend]="chartLegend"
+        ></canvas>
+      </div>
     </div>
   </div>
-  
+</div>

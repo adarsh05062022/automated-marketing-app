@@ -44,3 +44,8 @@ body {
     border: none;
     padding-left: 25px;
 }
+
+
+textarea{
+    height: auto !important;
+}

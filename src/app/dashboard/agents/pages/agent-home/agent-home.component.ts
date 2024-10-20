@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions } from 'chart.js';
-import { SocialService } from '../../../../services/social.service'; // Adjust the path as necessary
+import { SocialService } from '../../../../services/social.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { CampaignService } from '../../../../services/campaign.service';
 
 @Component({
   selector: 'app-agent-home',
@@ -14,15 +15,9 @@ export class AgentHomeComponent implements OnInit {
   totalRevenue: number = 0;
   approvedPosts: number = 0;
   activeCampaigns: number = 0;
-
   isInstagramEditing: boolean = false;
 
-  socialMedia: {
-    instagram: {
-      username: string;
-      password: string;
-    };
-  } = {
+  socialMedia = {
     instagram: {
       username: '',
       password: '',
@@ -30,52 +25,73 @@ export class AgentHomeComponent implements OnInit {
   };
 
   // Revenue chart options and data
-  public revenueChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-  };
-  public revenueChartLabels = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
-  public revenueChartData = [
-    {
-      data: [120, 150, 180, 90, 200, 250, 300],
-      label: 'Revenue (in $)',
-    },
-  ];
+  public revenueChartOptions: ChartOptions<'bar'> = { responsive: true };
+  public revenueChartLabels!: string[];
+  public revenueChartData = [{ data: [], label: 'Revenue (in $)' }];
   public chartLegend = true;
 
   constructor(
     private socialService: SocialService,
+    private campaignService: CampaignService,
     private toastr: ToastrService
-  ) {} // Inject the service
+  ) {}
 
   ngOnInit(): void {
-    // Fetch necessary data for dashboard and social account details
     this.fetchAgentDashboardData();
     this.fetchSocialAccountDetails();
   }
 
-  fetchAgentDashboardData() {
-    // Mock data, replace with API calls
-    this.totalRevenue = 1250;
-    this.approvedPosts = 12;
-    this.activeCampaigns = 4;
+  async fetchAgentDashboardData() {
+    this.campaignService.getCampaignsByAgentId().subscribe(
+      (response) => {
+        if (response && response.campaigns) {
+          let campaignList = response.campaigns;
+
+          campaignList = response.campaigns.filter(
+            (campaign: any) => campaign.isAccepted === true
+          );
+
+
+          console.log(campaignList)
+
+          this.totalRevenue = campaignList.reduce(
+            (acc: any, campaign: { metrics: { earnings: any; }; }) => acc + (campaign.metrics ? campaign.metrics.earnings : 0),
+            0
+          );
+
+          this.approvedPosts = campaignList.filter(
+            (campaign: { isAccepted: any; }) => campaign.isAccepted
+          ).length;
+
+          this.activeCampaigns = campaignList.filter(
+            (campaign: { endDate: string | number | Date; }) => new Date(campaign.endDate) > new Date()
+          ).length;
+
+          campaignList = campaignList.slice(-6); 
+
+          // Set data for chart
+          this.revenueChartData[0].data = campaignList.map(
+            (campaign: { metrics: { earnings: any; }; }) => (campaign.metrics ? campaign.metrics.earnings : 0)
+          );
+          this.revenueChartLabels = campaignList.map(
+            (campaign: { campaignName: any; }) => campaign.campaignName
+          );
+        }
+      },
+      (error) => {
+        console.error('Failed to retrieve campaigns:', error);
+        this.toastr.error('Failed to retrieve campaigns.');
+      }
+    );
   }
 
   fetchSocialAccountDetails() {
-    // Call the service method to get Instagram account details
     this.socialService
       .getSocialAccount()
       .pipe(
         catchError((error) => {
           console.error('Error fetching Instagram account:', error);
-          // this.toastr.error('Failed to load Instagram account.');
+          this.toastr.error('Failed to load Instagram account.');
           return of(null);
         })
       )
@@ -83,7 +99,6 @@ export class AgentHomeComponent implements OnInit {
         if (account) {
           this.socialMedia.instagram.username = account.username;
           this.socialMedia.instagram.password = account.password;
-          // this.toastr.success('Instagram account loaded successfully!');
         }
       });
   }
@@ -93,33 +108,23 @@ export class AgentHomeComponent implements OnInit {
   }
 
   onSaveIconClick() {
-    const instagramData = {
-      username: this.socialMedia.instagram.username,
-      password: this.socialMedia.instagram.password,
-    };
+    const { username, password } = this.socialMedia.instagram;
 
-    // Call the service method to save Instagram account details
     this.socialService
-      .registerOrUpdateSocialAccount(
-        instagramData.username,
-        instagramData.password
-      )
+      .registerOrUpdateSocialAccount(username, password)
       .pipe(
         catchError((error) => {
           console.error('Error saving Instagram account:', error);
-          this.toastr.error('Failed to save Instagram account.'); // Show error toast
-          return of(null); // Handle the error as needed
+          this.toastr.error('Failed to save Instagram account.');
+          return of(null);
         })
       )
       .subscribe((response) => {
         if (response) {
-          console.log('Instagram account saved successfully:', response);
-          this.toastr.success('Instagram account saved successfully!'); // Show success toast
-        } else {
-          console.log('Failed to save Instagram account');
+          this.toastr.success('Instagram account saved successfully!');
         }
       });
 
-    this.isInstagramEditing = !this.isInstagramEditing; // Toggle editing state
+    this.isInstagramEditing = false;
   }
 }

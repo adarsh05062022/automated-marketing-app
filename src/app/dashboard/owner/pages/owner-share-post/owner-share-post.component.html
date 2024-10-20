@@ -23,7 +23,7 @@
       </div>
 
       <div class="col-md-6">
-        <h3 class="profile-heading mt-4">Start a Campaign</h3>
+        <!-- <h3 class="profile-heading mt-4">Start a Campaign</h3> -->
         <form [formGroup]="campaignForm" (ngSubmit)="createCampaign()">
           <div class="row mt-3">
             <div class="col-md-12">
@@ -90,9 +90,9 @@
                   id="platformSelect"
                 >
                   <option value="" disabled>Select a platform</option>
-                  <option value="facebook">Facebook</option>
                   <option value="instagram">Instagram</option>
-                  <option value="twitter">Twitter</option>
+                  <option value="facebook" disabled>Facebook</option>
+                  <option value="twitter" disabled>Twitter</option>
                 </select>
               </div>
             </div>
@@ -107,7 +107,7 @@
                   id="campaignDescription"
                   formControlName="description"
                   class="form-control"
-                  rows="4"
+                  [rows]="4"
                   placeholder="Write a description for your campaign"
                 ></textarea>
                 <div
