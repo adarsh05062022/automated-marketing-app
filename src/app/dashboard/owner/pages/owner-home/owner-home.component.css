@@ -44,55 +44,14 @@
   }
 
   
-  .socials .details {
-    display: flex;
-    padding: 15px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
+  .social .card-header img {
+    max-width: 400px;
+    border-radius: 20px;
   }
   
-  .socials .details .userDetails {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: fit-content;
-  }
   
-  .socials .details .inputFields {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-  }
   
-  .socials .details .inputFields label {
-    min-width: 100px;
-    color: #4caf50;
-    font-size: 14px;
-    padding-left: 5px;
-  }
   
-  .socials .details .inputFields input,
-  .socials .details .inputFields textarea {
-    /* width: 200px; */
-    border-radius: 18px;
-    border: 1px solid aqua;
-    padding: 3px 10px;
-    font-size: 13px;
-  }
-  
-  .socials .details .inputFields input {
-    height: 35px;
-  }
-  
-  .socials .details .editButton {
-    position: absolute;
-    top: 0;
-    left: 10%;
-    cursor: pointer;
-  }
   
   
   

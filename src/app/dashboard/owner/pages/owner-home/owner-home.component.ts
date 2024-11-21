@@ -87,7 +87,7 @@ export class OwnerHomeComponent {
   // Update the chart with Campaign name vs Likes and Comments
   updateChartData(): void {
          
-    const campaignList = this.campaignList.slice(-7); 
+    const campaignList = this.campaignList.slice(-4); 
 
 
     // Reset the chart labels and data

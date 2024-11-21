@@ -94,7 +94,7 @@
           if (response ) {
             this.metrics.likes = response.likes; // Update the metrics with the fetched data
             this.metrics.comments = response.comments; // Update the metrics with the fetched data
-            this.metrics.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
+            this.metrics.earnings = response.earnings; // Update the metrics with the fetched data
             
           } else {
             console.warn(response.message || 'No metrics found.');
@@ -120,7 +120,7 @@
           if (response ) {
             this.metrics.likes = response.likes; // Update the metrics with the fetched data
             this.metrics.comments = response.comments; // Update the metrics with the fetched data
-            this.metrics.earnings = response.earnings*this.post.budget; // Update the metrics with the fetched data
+            this.metrics.earnings = response.earnings // Update the metrics with the fetched data
             
           } else {
             console.warn(response.message || 'No metrics found.');

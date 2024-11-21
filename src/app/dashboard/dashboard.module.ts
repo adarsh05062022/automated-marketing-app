@@ -19,6 +19,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 
 
 @NgModule({
@@ -45,8 +46,8 @@ import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
     FormsModule,
     MdbModalModule,
     MdbTabsModule,
-    MdbTooltipModule  
-
+    MdbTooltipModule,
+    MdbDropdownModule  ,
 
   ]
 })

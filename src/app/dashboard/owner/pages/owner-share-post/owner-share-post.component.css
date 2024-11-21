@@ -9,6 +9,8 @@ body {
     width: 70%;
 }
 
+
+
 .image-header-helf {
     font-size: 2rem;
     /* // padding-right: 179px;
@@ -18,6 +20,12 @@ body {
 
 .profile-heading {
     font-size: 28px;
+
+   
+}
+
+.flag-image{
+  border-radius: 20px;
 }
 
 .btn {

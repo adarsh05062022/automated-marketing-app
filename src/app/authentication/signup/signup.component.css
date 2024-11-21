@@ -7,13 +7,14 @@ body {
      /* background: transparent url('../../../../assets/image/Group\ 16166.png') 0% 0% no-repeat padding-box; */
     opacity: 1;
     width: 70%;
+    border-radius: 20px;
 }
 
 .image-header-helf {
-    font-size: 2rem;
-    /* // padding-right: 179px;
-    // margin-top: 49px; */
-    padding: 30px 30px 20px 0;
+    font-size: 1.5rem;
+    
+    padding: 30px 30px 0px 0;
+    color: #47a224;
 }
 
 .profile-heading {
