@@ -20,6 +20,7 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { AiQueryDialogComponent } from './owner/component/ai-query-dialog/ai-query-dialog.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
     OwnerActivitiesComponent,
     PostViewDialogComponent,
     AcceptOrDenyComponent,
-    AcceptPostComponent
+    AcceptPostComponent,
+    AiQueryDialogComponent
   ],
   imports: [
     CommonModule,

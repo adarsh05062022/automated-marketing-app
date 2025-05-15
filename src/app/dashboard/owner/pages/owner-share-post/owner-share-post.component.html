@@ -152,13 +152,19 @@
               </div>
             </div>
 
-            <div class="px-5">
+            <div class="px-5 d-flex gap-5">
               <button
                 type="submit"
                 class="btn text-white mt-3 shadow-lg"
                 [disabled]="campaignForm.invalid"
               >
                 Create Campaign
+              </button>
+              <button
+              (click)="openAiDialog()"
+                class="btn text-white mt-3 shadow-lg"
+              >
+                Get help with AI💡
               </button>
             </div>
           </div>

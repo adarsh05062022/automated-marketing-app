@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CampaignService } from '../../../../services/campaign.service'; // Import CampaignService
 import { ToastrService } from 'ngx-toastr';
+import { AiQueryDialogComponent } from '../../component/ai-query-dialog/ai-query-dialog.component';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+
 
 @Component({
   selector: 'app-owner-share-post',
@@ -18,7 +21,8 @@ export class OwnerSharePostComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private campaignService: CampaignService, // Inject CampaignService
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private modalService: MdbModalService,
   ) {}
 
   ngOnInit(): void {
@@ -80,4 +84,28 @@ export class OwnerSharePostComponent {
 
     reader.readAsDataURL(this.selectedFile); // Read the file as a Data URL to convert it to Base64
   }
+
+
+
+
+
+
+  openAiDialog() {
+    const modalRef = this.modalService.open(AiQueryDialogComponent, {
+      modalClass: 'modal-dialog-centered' // optional: center the dialog
+    });
+  
+    modalRef.onClose.subscribe((userQuery: string | null) => {
+      if (userQuery) {
+        console.log('User Query:', userQuery);
+  
+        // 🚀 Now call your AI API service here to generate the campaign!
+        // this.aiService.generateCampaign(userQuery).subscribe(...)
+  
+        // Example: Auto-fill the Campaign Description
+        this.campaignForm.patchValue({ description: `Generating content for: ${userQuery}` });
+      }
+    });
+  }
+  
 }
